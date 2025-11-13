@@ -1,232 +1,232 @@
-🦅 Eagle Face Recognition
-Real-time Facial Authentication with DeepFace, OpenCV, Flask Backend & Tkinter Frontend
+# 🦅 Eagle Face Recognition
 
-Eagle Face Recognition is a fast, offline, high-accuracy access control system combining:
+### *Real-time Facial Authentication using DeepFace, OpenCV, Flask Backend & Tkinter Frontend*
 
-🧠 DeepFace (Facenet512) for precise face embeddings
+**Eagle Face Recognition** is a fast, offline, high-accuracy facial authentication system built with:
 
-🎥 OpenCV for face detection & preprocessing
+* 🧠 **DeepFace (Facenet512)** for consistent embeddings
+* 🎥 **OpenCV** for face detection & preprocessing
+* 🔥 **Flask** for backend APIs
+* 🖥️ **Tkinter** for the desktop GUI
 
-🔥 Flask backend for registration, deletion, listing & verification APIs
+The system achieves **85–95% recognition confidence** using stable embeddings and cosine similarity matching.
 
-🖥️ Tkinter GUI for a desktop-friendly access control app
+---
 
-This project delivers 85–95% recognition confidence with consistent preprocessing, stable embeddings, and robust cosine similarity matching.
+## ✨ Key Features
 
-✨ Key Features
-🧑‍💻 Frontend (Tkinter GUI)
+### 🧑‍💻 Frontend — Tkinter GUI
 
-Modern dark theme UI
+* Modern dark-themed desktop interface
+* Buttons for:
 
-Buttons for:
+  * Register User
+  * Delete User
+  * List Users
+  * Access (Face Verification)
+* Live logs with auto-scroll
+* Async status polling
+* Real-time recognition results with confidence %
 
-Register User
+---
 
-Delete User
+### 🔥 Backend — Flask API
 
-List Users
+| Endpoint                | Description                        |
+| ----------------------- | ---------------------------------- |
+| `POST /register`        | Capture + embed + save a new user  |
+| `DELETE /delete/<name>` | Delete user + dataset + embeddings |
+| `GET /list`             | List all registered users          |
+| `POST /access`          | Live face verification             |
+| `GET /status/<name>`    | Status polling for registration    |
 
-Access (Face Verification)
+---
 
-Scrollable log window
+### 🎥 Face Recognition Pipeline
 
-Automatic status polling
+* Haar Cascade face detection
+* `_crop_largest_face()` for consistent cropping
+* RGB normalization
+* Facenet512 embeddings (DeepFace, detector skipped)
+* Median vector per user for stable identity representation
+* Cosine similarity matching
+* Confidence conversion for UI display
 
-Beautiful JSON → human-friendly messages
+---
 
-Real-time recognition results (with confidence %)
+### 📦 Dataset Auto-Management
 
-🔥 Backend (Flask API)
+```
+dataset/
+└── Custom/
+    └── <username>/
+         ├── raw/
+         └── cropped/
+```
 
-/register — capture, crop, embed and save a new user
+Automatically managed:
 
-/delete/<name> — delete user + embeddings + dataset
+* ✓ `users.json`
+* ✓ `embeddings.json`
+* ✓ `access_log.json`
 
-/list — list all registered users
+---
 
-/access — live face verification
+## 🏗 Project Structure
 
-/status/<name> — async registration progress polling
-
-🎥 Face Recognition Pipeline
-
-Haar Cascade face detection
-
-_crop_largest_face() to ensure consistent cropping
-
-RGB normalization
-
-Facenet512 embeddings (via DeepFace)
-
-Median embedding per user (for stability)
-
-Cosine similarity matching
-
-Confidence conversion for UI display
-
-📦 Dataset Auto-Management
-
-dataset/Custom/<user>/raw/
-
-dataset/Custom/<user>/cropped/
-
-Automatic folder creation + cleanup
-
-Auto update of:
-
-users.json
-
-embeddings.json
-
-access_log.json
-
-🏗 Project Structure
+```
 Eagle-face-recognition/
 │
-├── backend/               
+├── backend/
 │   ├── config.py              # Global paths & settings
 │   ├── photo_capture.py       # Face detection & cropping
 │   ├── face_recognition.py    # Embedding + verification
 │   ├── embedding_manager.py   # Build embeddings for users
 │   ├── user_manager.py        # Add/Delete/List users
 │   └── main_console.py        # Optional CLI for debugging
+│
 ├── frontend/
-|   |── app_gui.py                 # Tkinter GUI (frontend)
+│   └── app_gui.py             # Tkinter GUI
 │
 ├── dataset/
 │   └── Custom/                # User folders created automatically
 │
 ├── users.json                 # Registered users
 ├── embeddings.json            # Stored embeddings
-├── access_log.json            # Access events (optional)
-├── api.py 
+├── access_log.json            # Access events
+├── api.py                     # Flask backend entry point
 ├── requirements.txt
 └── README.md
+```
 
-🚀 Getting Started
-1️⃣ Install Dependencies
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Install Dependencies
+
+```
 pip install -r requirements.txt
+```
 
-2️⃣ Start the Backend
+### 2️⃣ Start the Backend
 
-From project root:
-
+```
 python backend/api.py
-
+```
 
 You should see:
 
+```
  * Running on http://127.0.0.1:5000
+```
 
-3️⃣ Start the GUI
+### 3️⃣ Start the GUI
 
-In a second terminal:
-
+```
 python app_gui.py
-
+```
 
 Your Eagle Access desktop app launches instantly.
 
-🧑‍🏫 How Registration Works
+---
 
-Enter username in the GUI
+## 🧑‍🏫 How Registration Works
 
-Click Register User
+1. Enter username in GUI
+2. Click **Register User**
+3. Backend captures 30 webcam frames
+4. Largest face is cropped per frame
+5. Embeddings are generated (Facenet512)
+6. Median embedding stored
+7. JSON + dataset auto-updated
+8. Status streamed to GUI
 
-Backend captures 30 images via webcam
+---
 
-Largest face is cropped from each
+## 🔐 How Verification Works
 
-Embeddings are generated
+1. Click **Access Eagle**
+2. Webcam captures live frame
+3. Same cropping pipeline used
+4. Embedding computed
+5. Cosine similarity applied
+6. GUI displays:
 
-Median embedding is stored
+   * Recognized user
+   * Distance
+   * Confidence %
+   * Color-coded result window
 
-JSON + dataset folders update automatically
+---
 
-Status is sent live to the GUI
+## 🧠 Recognition Logic
 
-🔐 How Verification Works
+### Cosine Distance
 
-Click Access Eagle
-
-Webcam captures a live frame
-
-Same cropping pipeline is applied
-
-Generate embedding with Facenet512
-
-Compare using cosine distance
-
-Output includes:
-
-Recognized user
-
-Distance
-
-Confidence percentage
-
-Displayed in a 640×480 window (color)
-
-GUI logs the result beautifully
-
-🧠 Recognition Logic
-Cosine distance
+```
 distance = 1 - cosine_similarity(embed_live, embed_stored)
+```
 
-Good match threshold
-distance <= 0.45 → Accepted
+### Acceptance Threshold
 
-Confidence %
+```
+distance ≤ 0.45
+```
+
+### Confidence %
+
+```
 confidence = 1 - (distance / 1.2)
+```
 
-🗂 User Management
-Add User
+---
+
+## 🗂 User Management
+
+### Add User
+
+```
 POST /register
+```
 
-Delete User
+### Delete User
+
+```
 DELETE /delete/<name>
-
+```
 
 Also deletes:
 
-embeddings
+* embeddings
+* dataset folder
+* user record
 
-dataset folder
+### List Users
 
-user record
-
-List Users
+```
 GET /list
+```
 
-👀 Screenshots (optional)
+---
 
-Add your own later:
+## 🦅 Roadmap
 
-Registration in progress
+* Anti-spoofing (blink detection / depth sensing)
+* Web dashboard (HTML/JS)
+* Embedding encryption
+* Admin login system
+* Access log analytics dashboard
 
-Access Granted
+---
 
-Access Denied
+## 📝 License
 
-GUI Screenshot
+MIT License — free to use and modify.
 
-🦅 Roadmap (Future Enhancements)
+---
 
-Anti-spoofing (blink detection / depth check)
+## 💛 Author
 
-Web dashboard instead of Tkinter
-
-Encryption for embeddings
-
-Admin login
-
-Access log viewer UI
-
-📝 License
-
-MIT License — free for personal & professional use.
-
-💛 Author
-
-Harshitha C
-“Eagle Access — built with patience, persistence, and passion.”
+**Harshitha C**
+*"Eagle Access — built with patience, persistence, and passion."*
